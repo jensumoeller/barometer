@@ -54,11 +54,12 @@ def main():
 
     # Initialisieren der Variable für aktuellen Luftdruck
     qfe_neu = 1013.25     # Initialer Luftdruck in hPa für Vergleich
-    delta = 0.1           # minimaler Differenzdruck für Trend
+    delta = 0.3           # minimaler Differenzdruck für Trend
     intervall = 30        # Intervalldauer der Messungen in Minuten
     anzeige('beide')      # beide LED initial an
 
     while True:
+        anzeige('')                     # LED aus bei Ermittlung
         qfe_alt = qfe_neu
         qfe_neu = qfe_mittel()
 
@@ -68,12 +69,17 @@ def main():
             anzeige('rot')
         else:                           # Luftdruck konstant
             anzeige('beide')
-
+        
         print('QFE = {0:0.1f} hPa'.format(qfe_mittel()))
         print('Temp = {0:0.1f} *C'.format(temperatur()))
         # print('Alt = {0:0.2f} m'.format(sensor.read_altitude()))
         # print('QNH = {0:0.2f} hPa'.format(sensor.read_sealevel_pressure()/100))
 
+        # Ausgabe der aktuellen Systemzeit in UTC
+        aktuelle_zeit_utc = time.gmtime(time.time())
+        print(time.strftime('%d %H:%M', aktuelle_zeit_utc))
+
+ 
         time.sleep(intervall * 60)
         
 
